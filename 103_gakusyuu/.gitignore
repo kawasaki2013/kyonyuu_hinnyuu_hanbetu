@@ -1,0 +1,5 @@
+/logdata/
+/log*
+/checkpoint
+/model.ckpt
+face_filelist_*

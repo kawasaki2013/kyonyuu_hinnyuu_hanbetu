@@ -1,0 +1,36 @@
+ディープラーニングで顔写真から巨乳かどうかを判別してみる (うまくいったか微妙)
+詳細は以下参照。
+  http://qiita.com/summer4an/items/db0124eee8103c1d3b85
+
+
+各ディレクトリの意味は以下。
+  001_gazou_original : 取得した画像。
+  002_gazou_face : 実験に使う顔画像。
+  101_gazou_getter : 引数に渡した人物の画像を片っ端から取得する。
+  102_kao_kirinuki : 顔部分を切り抜くexe。win用もlinux用もある。
+  103_gakusyuu : 501_model_make.shで学習を行い、DB(model.ckpt)を作る。30分程度かかる。
+                 DBを元に502_hanbetu_all_exec.shで判別を行う。
+
+
+使い方は以下。
+  ・まず画像を取得。
+    人物名をリストアップした後、101_gazou_getterに移動して以下を実行。
+      % ./001_gazou_getter.sh (kyonyuu or hinnyuu) (人名をローマ字で) (人名を日本語で)
+      % ./001_gazou_getter.sh kyonyuu "hogehoge" "ほげほげ"
+    001_gazou_originalに保存される。
+
+  ・顔部分を切り抜く。
+    ・102_kao_kirinukiに移動。
+    ・linux上ならface_kirinuki_linuxに移動してmake。
+      windows上ならface_kirinuki_windowsでOpenCV_test001.slnを開きビルド。
+    ・002_face_kirinki_all.shを実行する。
+
+  ・学習と判別を行う。
+    ・103_gakusyuuに移動。
+    ・500_list_maker.shを実行して表示されたリストを元に、
+      face_filelist_train.txtとface_filelist_test.txtを作る。
+      後で試しに判別してみる人の分も確保しておく。
+    ・501_model_make.shを実行して学習。
+    ・502_hanbetu_all_exec.shを実行して判別を試す。
+        % ./502_hanbetu_all_exec.sh ../002_gazou_face/hinnyuu_XXXX.jpg
+
